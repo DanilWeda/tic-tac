@@ -1,0 +1,83 @@
+@import url("https://fonts.googleapis.com/css2?family=Dongle:wght@300;400;700&family=Roboto:wght@100;300;400;500;700&display=swap");
+body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 80vh;
+  font-family: 'Dongle', sans-serif;
+  background: #3d3b3b;
+}
+
+body .title {
+  color: #cccccc;
+  width: 200px;
+  text-align: center;
+  font-weight: 300;
+  border: 1px solid #cccccc;
+}
+
+body .squares {
+  max-height: 90vh;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[3];
+      grid-template-columns: repeat(3, 1fr);
+  -ms-grid-rows: (1fr)[3];
+      grid-template-rows: repeat(3, 1fr);
+  gap: 5px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  max-width: 80%;
+  border-radius: 20px;
+  text-align: center;
+  padding: 10px 20px;
+}
+
+body .squares .square {
+  width: 150px;
+  height: 150px;
+  border: 1px solid #cccccc;
+  border-radius: 2px;
+}
+
+body .squares .filled {
+  background: white;
+}
+
+body .squares .null {
+  background: black;
+}
+
+body .reload {
+  font-size: 20pt;
+  margin-top: 20px;
+  color: #cccccc;
+  background: #290c0c;
+  width: 100px;
+  border-radius: 20px;
+  text-align: center;
+  font-weight: 300;
+  border: 3px solid #cccccc;
+}
+
+body .reload:hover {
+  padding: 3px;
+  cursor: pointer;
+  background: #3d3b3b;
+  border: 1px solid #cccccc;
+}
+/*# sourceMappingURL=style.css.map */
