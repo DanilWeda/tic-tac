@@ -200,6 +200,10 @@ function Win0() {
 
 reload.addEventListener('click', () => {
   reloads(squares);
+  scoreX = 0;
+  scoreOne.innerHTML = `X Score - ${scoreX}`;
+  score0 = 0;
+  scoreTwo.innerHTML = `0 Score - ${score0}`;
 });
 
 // reload function
