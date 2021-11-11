@@ -34,12 +34,40 @@ body {
       border-radius: 2px;
     }
     .filled {
-      background: rgb(255, 255, 255);
+      background-image: url(../img/x.png);
+      background-position: center;
+      background-size: contain;
+      background-color: #ccc;
     }
 
     .null {
-      background: rgb(0, 0, 0);
+      background-image: url(../img/0.png);
+      background-position: center;
+      background-size: contain;
+      background-color: #ccc;
     }
+  }
+  .score {
+    width: 750px;
+    font-size: 50px;
+    display: flex;
+    margin: 0;
+    justify-content: space-evenly;
+    p {
+      margin: 0;
+      color: #ccc;
+      position: relative;
+    }
+  }
+  .score p:nth-child(1)::after {
+    content: '';
+    width: 5px;
+    height: 30px;
+    position: absolute;
+    top: 50%;
+    left: 140%;
+    transform: translate(0, -50%);
+    border-right: 5px solid #ccc;
   }
   .reload {
     font-size: 20pt;

@@ -1,6 +1,8 @@
 // HTML element which we use.
 const board = document.getElementById('squares');
 const reload = document.getElementById('reload');
+let scoreOne = document.getElementById('scoreOne');
+let scoreTwo = document.getElementById('scoreTwo');
 
 // massive squares and count for cycle
 let squares = [];
@@ -21,69 +23,147 @@ for (let i = 0; i < howSquareYouNeed; i++) {
 
 // var for check
 let x = true;
-const checkArray = [];
+let checkArray = [];
 
 //click for square
 squares.forEach((item) => {
   item.addEventListener('click', () => {
     if (x) {
-      x = false;
-      item.classList.add('filled');
-      indexX(item);
+      if (
+        item.classList.contains('filled') ||
+        item.classList.contains('null')
+      ) {
+        alert('Уже заполнен!');
+        console.log(x);
+      } else {
+        x = false;
+        item.classList.add('filled');
+        indexX(item);
+      }
     } else if (x == false) {
-      x = true;
-      item.classList.add('null');
-      indexO(item);
+      if (
+        item.classList.contains('null') ||
+        item.classList.contains('filled')
+      ) {
+        alert('Уже заполнен!');
+        console.log(x);
+      } else {
+        x = true;
+        item.classList.add('null');
+        indexO(item);
+      }
     }
     //check first row
-    if (squares[0] === true && squares[1] === true && squares[2] === true) {
-      youWin();
-    } else if (
-      squares[0] === false &&
-      squares[1] === false &&
-      squares[2] === false
+    if (
+      checkArray[0] === true &&
+      checkArray[1] === true &&
+      checkArray[2] === true
     ) {
-      youWin();
+      WinX();
+    } else if (
+      checkArray[0] === false &&
+      checkArray[1] === false &&
+      checkArray[2] === false
+    ) {
+      Win0();
     }
     //check second row
-    if (squares[3] === true && squares[4] === true && squares[5] === true) {
-      youWin();
-    } else if (
-      squares[3] === false &&
-      squares[4] === false &&
-      squares[5] === false
+    if (
+      checkArray[3] === true &&
+      checkArray[4] === true &&
+      checkArray[5] === true
     ) {
-      youWin();
+      WinX();
+    } else if (
+      checkArray[3] === false &&
+      checkArray[4] === false &&
+      checkArray[5] === false
+    ) {
+      Win0();
     }
     //check third row
-    if (squares[6] === true && squares[7] === true && squares[8] === true) {
-      youWin();
-    } else if (
-      squares[6] === false &&
-      squares[7] === false &&
-      squares[8] === false
+    if (
+      checkArray[6] === true &&
+      checkArray[7] === true &&
+      checkArray[8] === true
     ) {
-      youWin();
+      WinX();
+    } else if (
+      checkArray[6] === false &&
+      checkArray[7] === false &&
+      checkArray[8] === false
+    ) {
+      Win0();
     }
     // check diagonals
-    if (squares[2] === true && squares[4] === true && squares[6] === true) {
-      youWin();
-    } else if (
-      squares[2] === false &&
-      squares[4] === false &&
-      squares[6] === false
+    if (
+      checkArray[2] === true &&
+      checkArray[4] === true &&
+      checkArray[6] === true
     ) {
-      youWin();
+      WinX();
+    } else if (
+      checkArray[2] === false &&
+      checkArray[4] === false &&
+      checkArray[6] === false
+    ) {
+      Win0();
     }
-    /// second
-    if (squares[0] === true && squares[4] === true && squares[8] === true) {
-      youWin();
-    } else if (
-      squares[0] === false &&
-      squares[4] === false &&
-      squares[8] === false
+    /// second diagonal
+    if (
+      checkArray[0] === true &&
+      checkArray[4] === true &&
+      checkArray[8] === true
     ) {
-      youWin();
+      WinX();
+    } else if (
+      checkArray[0] === false &&
+      checkArray[4] === false &&
+      checkArray[8] === false
+    ) {
+      Win0();
+    }
+    /// check column first
+    if (
+      checkArray[0] === true &&
+      checkArray[3] === true &&
+      checkArray[6] === true
+    ) {
+      WinX();
+    } else if (
+      checkArray[0] === false &&
+      checkArray[3] === false &&
+      checkArray[6] === false
+    ) {
+      Win0();
+    }
+    /// check column second
+    if (
+      checkArray[1] === true &&
+      checkArray[4] === true &&
+      checkArray[7] === true
+    ) {
+      WinX();
+    } else if (
+      checkArray[1] === false &&
+      checkArray[4] === false &&
+      checkArray[7] === false
+    ) {
+      Win0();
+    }
+    /// check column third
+    if (
+      checkArray[2] === true &&
+      checkArray[5] === true &&
+      checkArray[8] === true
+    ) {
+      WinX();
+    } else if (
+      checkArray[2] === false &&
+      checkArray[5] === false &&
+      checkArray[8] === false
+    ) {
+      Win0();
     }
   });
 });
@@ -91,16 +171,45 @@ squares.forEach((item) => {
 // function for check
 function indexX(item) {
   let index = squares.indexOf(item);
-  return (squares[index] = true);
+  return (checkArray[index] = true);
 }
 
 function indexO(item) {
   let index = squares.indexOf(item);
-  return (squares[index] = false);
+  return (checkArray[index] = false);
 }
 
-function youWin() {
-  alert('You win!');
+//function for score
+let scoreX = 0;
+let score0 = 0;
+
+function WinX() {
+  alert('X is win!');
+  scoreX += 1;
+  reloads(squares);
+  scoreOne.innerHTML = `X Score - ${scoreX}`;
+}
+function Win0() {
+  alert('0 is win!');
+  score0 += 1;
+  reloads(squares);
+  scoreTwo.innerHTML = `0 Score - ${score0}`;
 }
 
 // reload
+
+reload.addEventListener('click', () => {
+  reloads(squares);
+});
+
+// reload function
+function reloads(sqArray) {
+  sqArray.forEach((item) => {
+    if (item.classList.contains('filled')) {
+      item.classList.remove('filled');
+    } else if (item.classList.contains('null')) {
+      item.classList.remove('null');
+    }
+    checkArray = [];
+  });
+}

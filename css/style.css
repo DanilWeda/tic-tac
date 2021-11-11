@@ -55,11 +55,47 @@ body .squares .square {
 }
 
 body .squares .filled {
-  background: white;
+  background-image: url(../img/x.png);
+  background-position: center;
+  background-size: contain;
+  background-color: #ccc;
 }
 
 body .squares .null {
-  background: black;
+  background-image: url(../img/0.png);
+  background-position: center;
+  background-size: contain;
+  background-color: #ccc;
+}
+
+body .score {
+  width: 750px;
+  font-size: 50px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 0;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+}
+
+body .score p {
+  margin: 0;
+  color: #ccc;
+  position: relative;
+}
+
+body .score p:nth-child(1)::after {
+  content: '';
+  width: 5px;
+  height: 30px;
+  position: absolute;
+  top: 50%;
+  left: 140%;
+  -webkit-transform: translate(0, -50%);
+          transform: translate(0, -50%);
+  border-right: 5px solid #ccc;
 }
 
 body .reload {
