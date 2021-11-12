@@ -164,6 +164,9 @@ squares.forEach((item) => {
       checkArray[8] === false
     ) {
       Win0();
+    } else if (checkArray.length == 9) {
+      alert('Nobody to won! Reloading.');
+      reloads(squares);
     }
   });
 });
