@@ -5,8 +5,8 @@ let scoreOne = document.getElementById('scoreOne');
 let scoreTwo = document.getElementById('scoreTwo');
 
 // massive squares and count for cycle
-let squares = [];
-const howSquareYouNeed = 9;
+let squares = [[], [], []];
+const howSquareYouNeed = 3;
 
 // function for create element.
 function create() {
@@ -16,207 +16,148 @@ function create() {
   return square;
 }
 
-// cycle which we use for create squares
-for (let i = 0; i < howSquareYouNeed; i++) {
-  squares[i] = create();
-}
-
 // var for check
 let x = true;
-let checkArray = [];
+let checkArray = [[], [], []];
+let countTaps = 0;
 
-//click for square
-squares.forEach((item) => {
-  item.addEventListener('click', () => {
-    if (x) {
-      if (
-        item.classList.contains('filled') ||
-        item.classList.contains('null')
-      ) {
-        alert('Уже заполнен!');
-        console.log(x);
-      } else {
-        x = false;
-        item.classList.add('filled');
-        indexX(item);
-      }
-    } else if (x == false) {
-      if (
-        item.classList.contains('null') ||
-        item.classList.contains('filled')
-      ) {
-        alert('Уже заполнен!');
-        console.log(x);
-      } else {
-        x = true;
-        item.classList.add('null');
-        indexO(item);
-      }
-    }
-    //check first row
-    if (
-      checkArray[0] === true &&
-      checkArray[1] === true &&
-      checkArray[2] === true
-    ) {
-      WinX();
-    } else if (
-      checkArray[0] === false &&
-      checkArray[1] === false &&
-      checkArray[2] === false
-    ) {
-      Win0();
-    }
-    //check second row
-    if (
-      checkArray[3] === true &&
-      checkArray[4] === true &&
-      checkArray[5] === true
-    ) {
-      WinX();
-    } else if (
-      checkArray[3] === false &&
-      checkArray[4] === false &&
-      checkArray[5] === false
-    ) {
-      Win0();
-    }
-    //check third row
-    if (
-      checkArray[6] === true &&
-      checkArray[7] === true &&
-      checkArray[8] === true
-    ) {
-      WinX();
-    } else if (
-      checkArray[6] === false &&
-      checkArray[7] === false &&
-      checkArray[8] === false
-    ) {
-      Win0();
-    }
-    // check diagonals
-    if (
-      checkArray[2] === true &&
-      checkArray[4] === true &&
-      checkArray[6] === true
-    ) {
-      WinX();
-    } else if (
-      checkArray[2] === false &&
-      checkArray[4] === false &&
-      checkArray[6] === false
-    ) {
-      Win0();
-    }
-    /// second diagonal
-    if (
-      checkArray[0] === true &&
-      checkArray[4] === true &&
-      checkArray[8] === true
-    ) {
-      WinX();
-    } else if (
-      checkArray[0] === false &&
-      checkArray[4] === false &&
-      checkArray[8] === false
-    ) {
-      Win0();
-    }
-    /// check column first
-    if (
-      checkArray[0] === true &&
-      checkArray[3] === true &&
-      checkArray[6] === true
-    ) {
-      WinX();
-    } else if (
-      checkArray[0] === false &&
-      checkArray[3] === false &&
-      checkArray[6] === false
-    ) {
-      Win0();
-    }
-    /// check column second
-    if (
-      checkArray[1] === true &&
-      checkArray[4] === true &&
-      checkArray[7] === true
-    ) {
-      WinX();
-    } else if (
-      checkArray[1] === false &&
-      checkArray[4] === false &&
-      checkArray[7] === false
-    ) {
-      Win0();
-    }
-    /// check column third
-    if (
-      checkArray[2] === true &&
-      checkArray[5] === true &&
-      checkArray[8] === true
-    ) {
-      WinX();
-    } else if (
-      checkArray[2] === false &&
-      checkArray[5] === false &&
-      checkArray[8] === false
-    ) {
-      Win0();
-    } else if (checkArray.length == 9) {
-      alert('Nobody to won! Reloading.');
-      reloads(squares);
-    }
-  });
-});
-
-// function for check
-function indexX(item) {
-  let index = squares.indexOf(item);
-  return (checkArray[index] = true);
+// cycle which we use for create squares
+for (let i = 0; i < howSquareYouNeed; i++) {
+  for (let j = 0; j < howSquareYouNeed; j++) {
+    squares[i][j] = create();
+  }
 }
 
-function indexO(item) {
-  let index = squares.indexOf(item);
-  return (checkArray[index] = false);
+// cycle for add listener
+for (let i = 0; i < howSquareYouNeed; i++) {
+  for (let j = 0; j < howSquareYouNeed; j++) {
+    squares[i][j].addEventListener('click', () => {
+      if (x) {
+        if (
+          squares[i][j].classList.contains('filled') ||
+          squares[i][j].classList.contains('null')
+        ) {
+          alert('Уже заполнен!');
+        } else {
+          x = false;
+          squares[i][j].classList.add('filled');
+          checkArray[i][j] = true;
+          countTaps++;
+          winX();
+        }
+      } else {
+        if (
+          squares[i][j].classList.contains('null') ||
+          squares[i][j].classList.contains('filled')
+        ) {
+          alert('Уже заполнен!');
+        } else {
+          x = true;
+          squares[i][j].classList.add('null');
+          checkArray[i][j] = false;
+          countTaps++;
+          winO();
+        }
+      }
+      if (countTaps === 9) {
+        reloadAll(squares);
+      }
+    });
+  }
 }
 
 //function for score
 let scoreX = 0;
 let score0 = 0;
 
-function WinX() {
-  alert('X is win!');
-  scoreX += 1;
-  reloads(squares);
-  scoreOne.innerHTML = `X Score - ${scoreX}`;
-}
-function Win0() {
-  alert('0 is win!');
-  score0 += 1;
-  reloads(squares);
-  scoreTwo.innerHTML = `0 Score - ${score0}`;
+function winX() {
+  let countDiagonalLeftX = 0;
+  let countDiagonalRightX = 0;
+  for (let i = 0; i < howSquareYouNeed; i++) {
+    let countHorizontal = 0;
+    let countVertical = 0;
+    for (let j = 0; j < howSquareYouNeed; j++) {
+      if (checkArray[i][j] === true) {
+        countHorizontal++;
+      }
+      if (checkArray[j][i] === true) {
+        countVertical++;
+      }
+      if (i === j && checkArray[i][j] === true) {
+        countDiagonalLeftX++;
+      }
+      if (j === howSquareYouNeed - 1 - i && checkArray[i][j] === true) {
+        countDiagonalRightX++;
+      }
+    }
+
+    if (
+      countHorizontal === 3 ||
+      countVertical === 3 ||
+      countDiagonalLeftX === 3 ||
+      countDiagonalRightX === 3
+    ) {
+      alert('X won!');
+      scoreX++;
+      scoreOne.innerHTML = `X Score - ${scoreX}`;
+      reloadAll(squares);
+    }
+  }
 }
 
-// reload
+function winO() {
+  let countDiagonalLeftO = 0;
+  let countDiagonalRightO = 0;
+  for (let i = 0; i < howSquareYouNeed; i++) {
+    let countHorizontal = 0;
+    let countVertical = 0;
+    for (let j = 0; j < howSquareYouNeed; j++) {
+      if (checkArray[i][j] === false) {
+        countHorizontal++;
+      }
+      if (checkArray[j][i] === false) {
+        countVertical++;
+      }
+      if (i === j && checkArray[i][j] === false) {
+        countDiagonalLeftO++;
+      }
+      if (j === howSquareYouNeed - 1 - i && checkArray[i][j] === false) {
+        countDiagonalRightO++;
+      }
+    }
+    if (
+      countHorizontal === 3 ||
+      countVertical === 3 ||
+      countDiagonalLeftO === 3 ||
+      countDiagonalRightO === 3
+    ) {
+      alert('0 won!');
+      score0++;
+      scoreTwo.innerHTML = `0 Score - ${score0}`;
+      reloadAll(squares);
+    }
+  }
+}
+
+function reloadAll(sqArray) {
+  sqArray.forEach((item) => {
+    item.forEach((item) => {
+      if (item.classList.contains('filled')) {
+        item.classList.remove('filled');
+      } else if (item.classList.contains('null')) {
+        item.classList.remove('null');
+      }
+      checkArray = [[], [], []];
+      countTaps = 0;
+      x = true;
+    });
+  });
+}
 
 reload.addEventListener('click', () => {
-  reloads(squares);
+  reloadAll(squares);
   scoreX = 0;
   scoreOne.innerHTML = `X Score - ${scoreX}`;
   score0 = 0;
   scoreTwo.innerHTML = `0 Score - ${score0}`;
 });
-
-// reload function
-function reloads(sqArray) {
-  sqArray.forEach((item) => {
-    if (item.classList.contains('filled')) {
-      item.classList.remove('filled');
-    } else if (item.classList.contains('null')) {
-      item.classList.remove('null');
-    }
-    checkArray = [];
-  });
-}
